@@ -7,11 +7,13 @@
 @synthesize disableScroll = _disableScroll;
 //@synthesize styleDark = _styleDark;
 
+// BEGIN MODIFIED:
 Class wkClass;
 Class uiClass;
+// END MODIFIED
 
 - (void)pluginInitialize {
-
+    
     wkClass = NSClassFromString([@[@"UI", @"Web", @"Browser", @"View"] componentsJoinedByString:@""]);
     wkMethod = class_getInstanceMethod(wkClass, @selector(inputAccessoryView));
     wkOriginalImp = method_getImplementation(wkMethod);
@@ -93,8 +95,8 @@ Class uiClass;
     }
 
 // BEGIN MODIFIED:
-    Method UIMethod = class_getInstanceMethod(NSClassFromString(uiClass), @selector(inputAccessoryView));
-    Method WKMethod = class_getInstanceMethod(NSClassFromString(wkClass), @selector(inputAccessoryView));
+    Method UIMethod = class_getInstanceMethod(uiClass, @selector(inputAccessoryView));
+    Method WKMethod = class_getInstanceMethod(wkClass, @selector(inputAccessoryView));
 // END MODIFIED
 
     if (hideKeyboardAccessoryBar) {
@@ -102,9 +104,9 @@ Class uiClass;
         uiOriginalImp = method_getImplementation(UIMethod);
         wkOriginalImp = method_getImplementation(WKMethod);
 
-        IMP newImp = imp_implementationWithBlock(^(id _s) {
-            return nil;
-        });
+//        IMP newImp = imp_implementationWithBlock(^(id _s) {
+//            return nil;
+//        });
 // END MODIFIED
 
         method_setImplementation(wkMethod, nilImp);
@@ -203,4 +205,3 @@ Class uiClass;
 */
 
 @end
-
