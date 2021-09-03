@@ -90,14 +90,14 @@
     }
 
 // BEGIN MODIFIED:
-    Method UIMethod = class_getInstanceMethod(NSClassFromString(UIClassString), @selector(inputAccessoryView));
-    Method WKMethod = class_getInstanceMethod(NSClassFromString(WKClassString), @selector(inputAccessoryView));
+    Method UIMethod = class_getInstanceMethod(NSClassFromString(uiClass), @selector(inputAccessoryView));
+    Method WKMethod = class_getInstanceMethod(NSClassFromString(wkClass), @selector(inputAccessoryView));
 // END MODIFIED
 
     if (hideKeyboardAccessoryBar) {
 // BEGIN MODIFIED:
-        UIOriginalImp = method_getImplementation(UIMethod);
-        WKOriginalImp = method_getImplementation(WKMethod);
+        uiOriginalImp = method_getImplementation(UIMethod);
+        wkOriginalImp = method_getImplementation(WKMethod);
 
         IMP newImp = imp_implementationWithBlock(^(id _s) {
             return nil;
@@ -166,12 +166,16 @@
     if (!command.arguments || ![command.arguments count]){
         return;
     }
+    // BEGIN MODIFIED:
+    __weak IonicKeyboard* weakSelf = self;
+    // END MODIFIED
+
     id value = [command.arguments objectAtIndex:0];
     if (value != [NSNull null]) {
         self.hideKeyboardAccessoryBar = [value boolValue];
     }
     // BEGIN MODIFIED:
-    [weakself.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:self.hideKeyboardAccessoryBar]
+    [weakSelf.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:self.hideKeyboardAccessoryBar]
                                 callbackId:command.callbackId];
     // END MODIFIED
 }
