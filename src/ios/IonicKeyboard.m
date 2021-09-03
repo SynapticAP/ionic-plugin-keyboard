@@ -7,8 +7,8 @@
 @synthesize disableScroll = _disableScroll;
 //@synthesize styleDark = _styleDark;
 
-Class wkClass
-Class uiClass
+Class wkClass;
+Class uiClass;
 
 - (void)pluginInitialize {
 
