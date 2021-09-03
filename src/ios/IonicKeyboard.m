@@ -7,12 +7,15 @@
 @synthesize disableScroll = _disableScroll;
 //@synthesize styleDark = _styleDark;
 
+Class wkClass
+Class uiClass
+
 - (void)pluginInitialize {
 
-    Class wkClass = NSClassFromString([@[@"UI", @"Web", @"Browser", @"View"] componentsJoinedByString:@""]);
+    wkClass = NSClassFromString([@[@"UI", @"Web", @"Browser", @"View"] componentsJoinedByString:@""]);
     wkMethod = class_getInstanceMethod(wkClass, @selector(inputAccessoryView));
     wkOriginalImp = method_getImplementation(wkMethod);
-    Class uiClass = NSClassFromString([@[@"WK", @"Content", @"View"] componentsJoinedByString:@""]);
+    uiClass = NSClassFromString([@[@"WK", @"Content", @"View"] componentsJoinedByString:@""]);
     uiMethod = class_getInstanceMethod(uiClass, @selector(inputAccessoryView));
     uiOriginalImp = method_getImplementation(uiMethod);
     nilImp = imp_implementationWithBlock(^(id _s) {
